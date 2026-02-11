@@ -1,6 +1,7 @@
 # Go/Gin Sample REST API
 
 A comprehensive REST API built with Go and the Gin framework, demonstrating best practices for building production-ready web services.
+This branch has updates over the main Go branch
 
 ## Features
 
