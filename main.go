@@ -16,6 +16,7 @@ const (
 	RoleAdmin UserRole = "admin"
 	RoleUser  UserRole = "user"
 	RoleGuest UserRole = "guest"
+	RoleSuperAdmin UserRole = "superadmin"
 )
 
 // User models
@@ -23,7 +24,7 @@ type UserBase struct {
 	Username string   `json:"username" binding:"required,min=3,max=50"`
 	Email    string   `json:"email" binding:"required,email"`
 	FullName string   `json:"full_name,omitempty"`
-	Role     UserRole `json:"role" binding:"required,oneof=admin user guest"`
+	Role     UserRole `json:"role" binding:"required,oneof=admin user guest superadmin"`
 }
 
 type UserCreate struct {
@@ -108,7 +109,6 @@ func main() {
 
 	// Start server
 	println("🚀 Server starting on http://localhost:8080")
-	println("📚 Try the endpoints at http://localhost:8080")
 	router.Run(":8080")
 }
 
@@ -140,7 +140,7 @@ func createUserHandler(c *gin.Context) {
 	// Check if username exists
 	for _, u := range usersDB {
 		if u.Username == userCreate.Username {
-			c.JSON(http.StatusBadRequest, ErrorResponse{Error: "Username already exists"})
+			c.JSON(http.StatusBadRequest, ErrorResponse{Error: "Username already exists. Please log in."})
 			return
 		}
 	}
